@@ -11,6 +11,19 @@ app.use(cors())
 app.use(express.json())
 
 app.get("/captcha", async (req, res) => {
+  const apiTimeout = 120 * 1000
+  // Set the timeout for all HTTP requests
+  req.setTimeout(apiTimeout, () => {
+    let err = new Error("Request Timeout")
+    err.status = 408
+    next(err)
+  })
+  // Set the server response timeout for all HTTP requests
+  res.setTimeout(apiTimeout, () => {
+    let err = new Error("Service Unavailable")
+    err.status = 503
+    next(err)
+  })
   try {
     const solveCaptcha = async () => {
       const pageUrl = "www.botheredotters.com"
@@ -26,6 +39,7 @@ app.get("/captcha", async (req, res) => {
   }
 })
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App listening`)
 })
+server.setTimeout(120000)
