@@ -21,6 +21,7 @@ app.get("/captcha", async (req, res) => {
     const token = await solveCaptcha()
     res.send({ token })
   } catch (e) {
+    console.log(e)
     res.sendStatus(404)
   }
 })
