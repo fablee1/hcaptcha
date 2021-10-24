@@ -1,0 +1,57 @@
+import AccountModel from "../../models/account.js"
+
+export const addAccount = async (req, res, next) => {
+  try {
+    const newAccountData = {
+      ...req.body,
+    }
+    const newAccount = new AccountModel(newAccountData)
+    await newAccount.save()
+
+    res.sendStatus(201)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(400)
+  }
+}
+
+export const updateAccount = async (req, res, next) => {
+  const update = req.body
+  try {
+    const updatedAccount = await AccountModel.findOneAndUpdate(
+      {
+        address: req.params.add,
+      },
+      update,
+      { new: true }
+    )
+    if (!updatedAccount) return res.sendStatus(404)
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(404)
+  }
+}
+
+export const getAllAccounts = async (req, res, next) => {
+  try {
+    const allAccs = await AccountModel.find({})
+    res.send(allAccs)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(400)
+  }
+}
+
+export const getJobs = async (req, res, next) => {
+  try {
+    const jobs = await AccountModel.find({
+      expiresAt: { $lte: new Date() },
+      failed: false,
+    }).limit(10)
+    res.send(jobs)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(400)
+  }
+}
