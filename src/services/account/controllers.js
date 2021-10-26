@@ -16,8 +16,21 @@ export const addAccount = async (req, res, next) => {
 }
 
 export const updateAccount = async (req, res, next) => {
-  const update = req.body
+  const body = req.body
+  let update
   try {
+    if (body?.expiresAt) {
+      update = body
+    } else {
+      update = {
+        expiresAt: body.currentOffer.expires_at,
+        total_gifts: body.currentOffer.sol_gifts,
+        time: body.info.total_minutes,
+        referrals: body.info.total_referrals,
+        discord: body.info.discord_id ? true : false,
+        approved_referrals: body.referrals.length,
+      }
+    }
     const updatedAccount = await AccountModel.findOneAndUpdate(
       {
         address: req.params.add,
@@ -53,5 +66,23 @@ export const getJobs = async (req, res, next) => {
   } catch (e) {
     console.log(e)
     res.sendStatus(400)
+  }
+}
+
+export const updateTwitter = async (req, res, next) => {
+  const body = req.body
+  try {
+    const updatedAccount = await AccountModel.findOneAndUpdate(
+      {
+        address: req.params.add,
+      },
+      { twitter: body.twitter },
+      { new: true }
+    )
+    if (!updatedAccount) return res.sendStatus(404)
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(404)
   }
 }

@@ -23,10 +23,10 @@ export const solveCaptcha = async (req, res, next) => {
 export const getCaptchaResult = async (req, res, next) => {
   try {
     if (captchas[req.params.add]) {
-      res.send({ token: captchas[req.params.add] })
+      res.send({ solved: true, token: captchas[req.params.add] })
       delete captchas[req.params.add]
     } else {
-      res.sendStatus(404)
+      res.send({ solved: false })
     }
   } catch (e) {
     console.log(e)

@@ -8,5 +8,6 @@ router
   .put("/:add", controllers.updateAccount)
   .get("/all", controllers.getAllAccounts)
   .get("/jobs", controllers.getJobs)
+  .put("/:add/twitter", controllers.updateTwitter)
 
 export default router
