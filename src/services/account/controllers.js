@@ -19,7 +19,7 @@ export const updateAccount = async (req, res, next) => {
   const body = req.body
   let update
   try {
-    if (body?.failed) {
+    if ("failed" in body) {
       update = body
     } else if (body?.expiresAt) {
       update = body
