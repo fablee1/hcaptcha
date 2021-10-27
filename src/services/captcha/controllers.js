@@ -47,7 +47,7 @@ export const getCaptchaFarmHours = async (req, res, next) => {
       return data
     }
     const token = await solveCaptcha()
-    captchas[req.newAdd] = token
+    captchas[newAdd] = token
   } catch (e) {
     console.log(e)
   }
