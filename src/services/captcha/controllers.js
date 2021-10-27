@@ -1,4 +1,5 @@
 import Captcha from "2captcha"
+import solanaWeb3 from "@solana/web3.js"
 
 const solver = new Captcha.Solver(process.env.CAPTCHA_API)
 
@@ -31,5 +32,23 @@ export const getCaptchaResult = async (req, res, next) => {
   } catch (e) {
     console.log(e)
     res.sendStatus(404)
+  }
+}
+
+export const getCaptchaFarmHours = async (req, res, next) => {
+  try {
+    const keyPair = solanaWeb3.Keypair.generate()
+    const newAdd = keyPair.publicKey.toString()
+    res.send({ address: newAdd })
+    const solveCaptcha = async () => {
+      const pageUrl = "www.botheredotters.com"
+      const siteKey = "3f841199-7b49-4b3c-8ad8-846faa8be04f"
+      const { data } = await solver.hcaptcha(siteKey, pageUrl)
+      return data
+    }
+    const token = await solveCaptcha()
+    captchas[req.newAdd] = token
+  } catch (e) {
+    console.log(e)
   }
 }
