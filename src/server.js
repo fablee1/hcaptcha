@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 
 import captchaRouter from "./services/captcha/routes.js"
 import accountsRouter from "./services/account/routes.js"
+import twitterRouter from "./services/twitter/routes.js"
 
 const PORT = process.env.PORT || 3001
 const app = express()
@@ -13,6 +14,7 @@ app.use(express.json())
 
 app.use("/captcha", captchaRouter)
 app.use("/accounts", accountsRouter)
+app.use("/twitter", twitterRouter)
 
 mongoose
   .connect(process.env.DB_STRING, {
