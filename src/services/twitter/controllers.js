@@ -11,7 +11,7 @@ export const getTwitter = async (req, res, next) => {
 
 export const postTwitter = async (req, res, next) => {
   try {
-    if (twitterLinks.length > 10) {
+    if (twitterLinks.length > 6) {
       twitterLinks.shift()
     }
     twitterLinks.push(req.body.link)
