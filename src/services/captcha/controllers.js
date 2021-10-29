@@ -8,6 +8,9 @@ const captchas = {}
 export const solveCaptcha = async (req, res, next) => {
   try {
     res.sendStatus(200)
+    if (captchas[req.params.add]) {
+      delete captchas[req.params.add]
+    }
     const solveCaptcha = async () => {
       const pageUrl = "www.botheredotters.com"
       const siteKey = "3f841199-7b49-4b3c-8ad8-846faa8be04f"
