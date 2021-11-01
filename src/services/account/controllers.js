@@ -31,6 +31,7 @@ export const updateAccount = async (req, res, next) => {
         referrals: body.info.total_referrals,
         discord: body.info.discord_id ? true : false,
         approved_referrals: body.referrals.length,
+        total_tickets: body.info.total_tickets,
       }
     }
     const updatedAccount = await AccountModel.findOneAndUpdate(

@@ -15,6 +15,7 @@ const AccountSchema = new Schema(
     approved_referrals: { type: Number, default: 0 },
     discord: { type: Boolean, default: false },
     twitter: { type: String, default: "false" },
+    total_tickets: { type: Number, default: 0 },
   },
   { timestamps: true }
 )
