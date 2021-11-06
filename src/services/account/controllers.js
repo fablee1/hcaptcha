@@ -1,4 +1,5 @@
 import AccountModel from "../../models/account.js"
+import { accSnapshot } from "./accs.js"
 
 export const addAccount = async (req, res, next) => {
   try {
@@ -64,6 +65,7 @@ export const getJobs = async (req, res, next) => {
     const jobs = await AccountModel.find({
       expiresAt: { $lte: new Date() },
       failed: false,
+      auth_key: { $exists: true },
     }).limit(12)
     res.send(jobs)
   } catch (e) {
@@ -83,6 +85,26 @@ export const updateTwitter = async (req, res, next) => {
       { new: true }
     )
     if (!updatedAccount) return res.sendStatus(404)
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(404)
+  }
+}
+
+export const findBannedAccs = async (req, res, next) => {
+  try {
+    accSnapshot.forEach(async (acc) => {
+      const foundAcc = await AccountModel.findOne({ _id: acc._id.$oid })
+      if (foundAcc) {
+        if (foundAcc.total_gifts === acc.total_gifts) {
+          await AccountModel.findOneAndUpdate(
+            { _id: acc._id.$oid },
+            { $set: { failed: true } }
+          )
+        }
+      }
+    })
     res.sendStatus(200)
   } catch (e) {
     console.log(e)

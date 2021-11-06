@@ -9,5 +9,6 @@ router
   .get("/all", controllers.getAllAccounts)
   .get("/jobs", controllers.getJobs)
   .put("/:add/twitter", controllers.updateTwitter)
+  .get("/checkBanned", controllers.findBannedAccs)
 
 export default router

@@ -16,6 +16,7 @@ const AccountSchema = new Schema(
     discord: { type: Boolean, default: false },
     twitter: { type: String, default: "false" },
     total_tickets: { type: Number, default: 0 },
+    auth_key: String,
   },
   { timestamps: true }
 )
