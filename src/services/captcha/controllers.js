@@ -1,6 +1,10 @@
 import Captcha from "2captcha"
 import solanaWeb3 from "@solana/web3.js"
 
+import { Captcha as Capt } from "simple-emoji-captcha"
+
+const simpleCaptcha = new Capt()
+
 const solver = new Captcha.Solver(process.env.CAPTCHA_API)
 
 const captchas = {}
@@ -53,5 +57,25 @@ export const getCaptchaFarmHours = async (req, res, next) => {
     captchas[newAdd] = token
   } catch (e) {
     console.log(e)
+  }
+}
+
+export const getTestCaptcha = async (req, res, next) => {
+  try {
+    const genCaptcha = simpleCaptcha.generateCaptcha(true)
+    res.send(genCaptcha)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(404)
+  }
+}
+
+export const solveTestCaptcha = async (req, res, next) => {
+  try {
+    const solved = simpleCaptcha.checkCaptcha(req.body.token, req.body.a)
+    res.send(solved)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(404)
   }
 }

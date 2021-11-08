@@ -24,7 +24,8 @@
     "2captcha": "^2.1.9",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^6.0.12"
+    "mongoose": "^6.0.12",
+    "simple-emoji-captcha": "^1.3.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",

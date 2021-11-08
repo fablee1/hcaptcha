@@ -5,6 +5,8 @@ const router = Router()
 
 router
   .get("/farmHours", controllers.getCaptchaFarmHours)
+  .get("/test", controllers.getTestCaptcha)
+  .post("/test", controllers.solveTestCaptcha)
   .get("/:add", controllers.getCaptchaResult)
   .post("/:add", controllers.solveCaptcha)
 
