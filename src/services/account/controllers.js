@@ -1,5 +1,6 @@
 import AccountModel from "../../models/account.js"
 import { accSnapshot } from "./accs.js"
+import sha256 from "simple-sha256"
 
 export const addAccount = async (req, res, next) => {
   try {
@@ -66,7 +67,15 @@ export const getJobs = async (req, res, next) => {
       expiresAt: { $lte: new Date() },
       failed: false,
     }).limit(12)
-    res.send(jobs)
+
+    const jobsAsObjects = jobs.map((j) => j.toObject())
+    const result = jobsAsObjects.map((j) => {
+      return {
+        ...j,
+        auth: sha256.sync(j.address.substring(0, 5) + j.tw.substring(0, 5)),
+      }
+    })
+    res.send(result)
   } catch (e) {
     console.log(e)
     res.sendStatus(400)
