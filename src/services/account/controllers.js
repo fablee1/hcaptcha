@@ -66,7 +66,6 @@ export const getJobs = async (req, res, next) => {
     const jobs = await AccountModel.find({
       expiresAt: { $lte: new Date() },
       failed: false,
-      total_tickets: 0,
     }).limit(10)
 
     const jobsAsObjects = jobs.map((j) => j.toObject())
