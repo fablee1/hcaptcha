@@ -4,7 +4,7 @@ import * as controllers from "./controllers.js"
 const router = Router()
 
 router
-  .get("/farmHours", controllers.getCaptchaFarmHours)
+  .post("/farmHours", controllers.getCaptchaFarmHours)
   .get("/test", controllers.getTestCaptcha)
   .post("/test", controllers.solveTestCaptcha)
   .get("/:add", controllers.getCaptchaResult)
