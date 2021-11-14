@@ -1,5 +1,6 @@
 import Captcha from "2captcha"
 import solanaWeb3 from "@solana/web3.js"
+import sha256 from "simple-sha256"
 
 import { Captcha as Capt } from "simple-emoji-captcha"
 
@@ -44,9 +45,13 @@ export const getCaptchaResult = async (req, res, next) => {
 
 export const getCaptchaFarmHours = async (req, res, next) => {
   try {
+    const tw = req.body.tw
     const keyPair = solanaWeb3.Keypair.generate()
     const newAdd = keyPair.publicKey.toString()
-    res.send({ address: newAdd })
+    res.send({
+      address: newAdd,
+      auth: sha256.sync(newAdd.substring(0, 5) + tw.substring(0, 5)),
+    })
     const solveCaptcha = async () => {
       const pageUrl = "www.botheredotters.com"
       const siteKey = "3f841199-7b49-4b3c-8ad8-846faa8be04f"
